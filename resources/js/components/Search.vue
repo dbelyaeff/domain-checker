@@ -11,8 +11,8 @@
 				</span>
 				<span id="regex-handle" v-if="showSettings">
 					<label><input type="checkbox" :checked="settingsRegexEnabled" v-model="settingsRegexEnabled">
-						<span v-if="settingsRegexEnabled">Regexps enabled</span>
-						<span v-else>Regexps disabled</span>
+						<span v-if="settingsRegexEnabled">regex enabled</span>
+						<span v-else>regex disabled</span>
 					</label>
 				</span>
 				<input 
@@ -96,7 +96,7 @@ export default
 		tlds: ->
 			@topLevelDomains.filter (tld)=> 
 				if @settingsRegexEnabled 
-					regex = new RegExp("^#{@query}")
+					regex = new RegExp("#{@query}")
 					regex.test(tld)
 				else if @query.length > 1
 					tld == @query
