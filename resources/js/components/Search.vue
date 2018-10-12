@@ -21,7 +21,6 @@
 					:placeholder="showSettings ? placeholders.settings : placeholders.search" 
 					v-model="query"
 					@keydown="filter"
-					@keypress="search"
 					ref="query"
 				>
 				<a class="del" href="" v-if="query.length" @click.prevent.stop="query=''">✕</a>
@@ -145,25 +144,26 @@ export default
 				1
 		search: ->
 			unless @showSettings
-				return if @query.length < 3
 				clearTimeout(@timer) if @timer
-				@timer = setTimeout ()=>
-					@result = {}
-					@loading = true
-					axios.get '/api/whois',
-						params:
-							query: @query
-							domains: @root_domains.join(',')
-					.then ({data}) =>
-						@result = data
-						@loading = false
-					.catch (response) =>
-						@loading = false
-				, 500
+				if @query.length > 2
+					@timer = setTimeout ()=>
+						@result = {}
+						@loading = true
+						axios.get '/api/whois',
+							params:
+								query: @query
+								domains: @root_domains.join(',')
+						.then ({data}) =>
+							@result = data
+							@loading = false
+						.catch (response) =>
+							@loading = false
+					, 300
 		filter: (e)->
 			unless @showSettings
-				e.preventDefault() unless e.key.match /[\.\w_-]{1,1}/ 
+				e.preventDefault() unless e.key.match /[\.\wа-яА-Я_-]{1,1}/ 
 			@query = @query.toLowerCase()
+			@search()
 		
 </script>
 <style lang="stylus" scoped>
