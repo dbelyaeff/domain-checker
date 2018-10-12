@@ -21,6 +21,8 @@
 					:placeholder="showSettings ? placeholders.settings : placeholders.search" 
 					v-model="query"
 					@keydown="filter"
+					@input="filter"
+					@paste="filter"
 					ref="query"
 				>
 				<a class="del" href="" v-if="query.length" @click.prevent.stop="query=''">✕</a>
@@ -29,7 +31,7 @@
 		<div id="settings" v-if="showSettings" :class="{'has-items':tlds.length > 2}">
 			<div id="settings-wrapper">
 				<a v-for="(tld,index) in tlds" :key="index" :class="{'item':true,'checked':checkTLD(tld)}" @click.prevent.stop="toggleTLD(tld)">
-					<span>{{tld}}</span>
+					<span>{{punycode(tld)}}</span>
 					<span>
 						<input type="checkbox" :checked="checkTLD(tld)">
 					</span>
@@ -68,6 +70,8 @@
 </template>
 <script lang="coffee">
 import topLevelDomains from '../data/tld.js'
+import punycode from 'punycode'
+import domainRegex from 'domain-regex'
 export default
 	name: 'search'
 	data: ->
@@ -95,6 +99,7 @@ export default
 	computed: 
 		tlds: ->
 			@topLevelDomains.filter (tld)=> 
+				tld = punycode.toUnicode(tld)
 				if @settingsRegexEnabled 
 					regex = new RegExp("#{@query}")
 					regex.test(tld)
@@ -111,7 +116,8 @@ export default
 			@query='' if e.key == 'Escape'
 		@$refs.query.focus()
 	methods:
-		getFullDomain: (domain)-> if @query.indexOf('.') == -1 then [@query,domain].join('.') else @query
+		punycode: (domain)-> punycode.toUnicode(domain)
+		getFullDomain: (domain)-> if @query.indexOf('.') == -1 then [@query,punycode.toUnicode(domain)].join('.') else @query
 		check: (domain)->	
 			if domain 
 				@result[@getFullDomain(domain)]
@@ -143,7 +149,7 @@ export default
 			else 
 				1
 		search: ->
-			unless @showSettings
+			if (domainRegex().test(punycode.toASCII(@query)) || @root_domains.length) && !(@showSettings || @loading)
 				clearTimeout(@timer) if @timer
 				if @query.length > 2
 					@timer = setTimeout ()=>
@@ -152,7 +158,7 @@ export default
 						axios.get '/api/whois',
 							params:
 								query: @query
-								domains: @root_domains.join(',')
+								domains: @root_domains.map((domain)=>@punycode(domain)).join(',')
 						.then ({data}) =>
 							@result = data
 							@loading = false
@@ -161,10 +167,11 @@ export default
 					, 300
 		filter: (e)->
 			unless @showSettings
-				e.preventDefault() unless e.key.match /[\.\wа-яА-Я_-]{1,1}/ 
-			@query = @query.toLowerCase()
+				key = e.key || e.data
+				e.preventDefault() unless key?.match /[\.\wа-яА-Я_-]{1,1}/ 
+			@query = @query.toLowerCase().replace("(.+)\.(\w)")
 			@search()
-		
+
 </script>
 <style lang="stylus" scoped>
 $success = #50ae54

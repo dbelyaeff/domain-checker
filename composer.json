@@ -9,10 +9,11 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
-        "phois/whois": "dev-master"
+        "phois/whois": "dev-master",
+        "true/punycode": "^2.1"
     },
     "require-dev": {
-        "beyondcode/laravel-dump-server": "^1.0",
+        "beyondcode/laravel-dump-server": "^1.2",
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",

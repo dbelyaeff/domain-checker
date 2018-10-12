@@ -27,9 +27,11 @@
         "axios-progress-bar": "^1.2.0",
         "coffee-loader": "^0.9.0",
         "coffeescript": "^2.3.2",
+        "domain-regex": "^0.0.1",
         "prettier": "^1.14.3",
         "pug": "^2.0.3",
         "pug-plain-loader": "^1.0.0",
+        "punycode": "^2.1.1",
         "throttle-debounce": "^2.0.1"
     }
 }
