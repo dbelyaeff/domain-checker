@@ -11,8 +11,8 @@
 				</span>
 				<span id="regex-handle" v-if="showSettings">
 					<label><input type="checkbox" :checked="settingsRegexEnabled" v-model="settingsRegexEnabled">
-						<span v-if="settingsRegexEnabled">Use regular expressions</span>
-						<span v-else>Plain search</span>
+						<span v-if="settingsRegexEnabled">Regular expressions enabled</span>
+						<span v-else>Regular expressions disabled</span>
 					</label>
 				</span>
 				<input 
