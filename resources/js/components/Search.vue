@@ -113,10 +113,14 @@ export default
 		@$refs.query.focus()
 	methods:
 		getFullDomain: (domain)-> if @query.indexOf('.') == -1 then [@query,domain].join('.') else @query
-		check: (domain='')->	if domain then @result[@getFullDomain(domain)] else @result[@query]
-		getLink: (domain='') -> 
+		check: (domain)->	
+			if domain 
+				@result[@getFullDomain(domain)]
+			else 
+				@result[@query]
+		getLink: (domain) -> 
 			domain = if domain then @getFullDomain(domain) else @query
-			if @check(domain) 
+			if @result[domain] == true
 				"https://www.reg.ru/choose/domain/?domains=#{domain}" 
 			else 
 				"https://www.reg.ru/whois/?dname=#{domain}"
