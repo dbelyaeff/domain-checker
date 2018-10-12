@@ -39,5 +39,8 @@ class WhoisController extends Controller
             }
             return $result;
         }
+        else {
+            abort(400);
+        }
     }
 }
