@@ -233,6 +233,7 @@ input#search
 	outline 0 !important
 	padding .25em
 	border-radius 2px
+	text-transform lowercase
 	font-family: 'Nunito', sans-serif;
 	border 1px solid rgba(0,0,0,.1)
 	@media(max-width 768px)
