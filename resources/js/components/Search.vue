@@ -65,7 +65,9 @@
 		<pre>
 		</pre>
 	</main>
-	<footer><a href="https://ifmo.su"><img src="/images/codex-logo.svg" alt="Codex Team"></a> &copy; 2018</footer>
+	<footer>
+		<a class="github-button" href="https://github.com/codemotion/domain-checker" aria-label="Star codemotion/domain-checker on GitHub">Github</a>
+		<!-- <a href="https://ifmo.su"><img src="/images/codex-logo.svg" alt="Codex Team"></a> --> &copy; 2018</footer>
 </div>
 </template>
 <script lang="coffee">
