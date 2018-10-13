@@ -11,7 +11,7 @@
 				</span>
 				<span id="regex-handle" v-if="showSettings">
 					<label><input type="checkbox" :checked="settingsRegexEnabled" v-model="settingsRegexEnabled">
-						<span v-if="settingsRegexEnabled">regex enabled</span>
+						<span v-if="settingsRegexEnabled">regex <span class="enabled">enabled</span></span>
 						<span v-else>regex disabled</span>
 					</label>
 				</span>
@@ -151,7 +151,7 @@ export default
 		search: ->
 			if (domainRegex().test(punycode.toASCII(@query)) || @root_domains.length) && !(@showSettings || @loading)
 				clearTimeout(@timer) if @timer
-				if @query.length > 2
+				if @query.length >= 2
 					@timer = setTimeout ()=>
 						@result = {}
 						@loading = true
@@ -176,6 +176,10 @@ export default
 <style lang="stylus" scoped>
 $success = #50ae54
 $fail = #ff0024
+.enabled
+	color $success
+.disabled
+	color $fail
 #flex
 	display flex
 	flex-direction column

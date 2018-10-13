@@ -7,7 +7,6 @@ use Phois\Whois\Whois;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
-// use TrueBV\Punycode;
 
 class WhoisController extends Controller
 {
